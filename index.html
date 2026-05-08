@@ -698,7 +698,7 @@
         <p>Rotate, zoom, and interact with the full architectural model to see every detail of the library cafe design.</p>
     </div>
     <div class="model-container fade-up">
-        <a href="https://app.shapr3d.com/p/04dc6a4e-76e0-4a30-bd0f-6e5fd7716c31/v/5RRC4pHmLvG3LWjadMZd_" target="_blank" rel="noopener" class="model-preview">
+        <a href="https://app.shapr3d.com/p/04dc6a4e-76e0-4a30-bd0f-6e5fd7716c31/v/5RRC4pHmLvG3LWjadMZd_?source=auth-handoff&utm_source=app" target="_blank" rel="noopener" class="model-preview">
             <img src="images/total-design-angle.png" alt="3D Model Preview — Click to open interactive viewer" loading="lazy">
             <div class="model-overlay">
                 <div class="model-play-icon">
@@ -891,9 +891,10 @@
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05, rootMargin: '0px 0px 50px 0px' });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
