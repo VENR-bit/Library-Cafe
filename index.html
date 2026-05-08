@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -597,10 +598,7 @@
             }
             .furniture-grid { grid-template-columns: 1fr; max-width: 500px; }
             .furniture-card-img { height: 180px; }
-            .model-preview img { height: 300px; }
-            .model-cta-text { font-size: 1.1rem; }
-            .model-play-icon { width: 60px; height: 60px; }
-            .model-play-icon svg { width: 32px; height: 32px; }
+            model-viewer { height: 350px !important; }
             .model-section { padding: 3.5rem 1rem; }
             .cta-box { padding: 2rem 1.5rem; }
             .cta-box h2 { font-size: 1.6rem; }
@@ -698,16 +696,19 @@
         <p>Rotate, zoom, and interact with the full architectural model to see every detail of the library cafe design.</p>
     </div>
     <div class="model-container fade-up">
-        <a href="https://app.shapr3d.com/p/04dc6a4e-76e0-4a30-bd0f-6e5fd7716c31/v/5RRC4pHmLvG3LWjadMZd_?source=auth-handoff&utm_source=app" target="_blank" rel="noopener" class="model-preview">
-            <img src="images/total-design-angle.png" alt="3D Model Preview — Click to open interactive viewer" loading="lazy">
-            <div class="model-overlay">
-                <div class="model-play-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="M21.17 8C18.15 4.57 14 2 14 2s-1.9 3.95-1.03 7.09c.87 3.14 3.61 5.48 3.61 5.48L21.17 8z"/><path d="M10.97 14.88s-.87-3.14.03-7.09C12 4.65 14 2 14 2s-3.15 1.57-6.17 5-4.57 7.56-4.57 7.56l7.71.32z"/></svg>
-                </div>
-                <span class="model-cta-text">Open Interactive 3D Model</span>
-                <span class="model-cta-sub">Rotate, zoom & explore in Shapr3D</span>
-            </div>
-        </a>
+        <model-viewer
+            src="model.glb"
+            alt="Rideekanda Library Cafe 3D Model"
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+            exposure="1"
+            poster="images/total-design-angle.png"
+            loading="eager"
+            style="width: 100%; height: 600px; border-radius: 16px; background: #1a1a1a;"
+        >
+            <div slot="progress-bar" style="display:none;"></div>
+        </model-viewer>
     </div>
 </section>
 
