@@ -273,11 +273,60 @@
             box-shadow: 0 25px 80px rgba(0,0,0,0.4);
             background: #222;
         }
-        .model-container iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
+        .model-preview {
             display: block;
+            position: relative;
+            text-decoration: none;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        .model-preview img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s, filter 0.6s;
+        }
+        .model-preview:hover img {
+            transform: scale(1.03);
+            filter: brightness(0.7);
+        }
+        .model-overlay {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: rgba(26, 58, 10, 0.45);
+            transition: background 0.4s;
+        }
+        .model-preview:hover .model-overlay {
+            background: rgba(26, 58, 10, 0.7);
+        }
+        .model-play-icon {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.6);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+            margin-bottom: 1.2rem;
+            transition: all 0.4s;
+            background: rgba(255,255,255,0.1);
+        }
+        .model-preview:hover .model-play-icon {
+            border-color: var(--gold-light);
+            background: rgba(201,168,76,0.2);
+            transform: scale(1.1);
+        }
+        .model-cta-text {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .model-cta-sub {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            font-weight: 300;
         }
 
         /* GALLERY */
@@ -548,7 +597,10 @@
             }
             .furniture-grid { grid-template-columns: 1fr; max-width: 500px; }
             .furniture-card-img { height: 180px; }
-            .model-container iframe { height: 350px; }
+            .model-preview img { height: 300px; }
+            .model-cta-text { font-size: 1.1rem; }
+            .model-play-icon { width: 60px; height: 60px; }
+            .model-play-icon svg { width: 32px; height: 32px; }
             .model-section { padding: 3.5rem 1rem; }
             .cta-box { padding: 2rem 1.5rem; }
             .cta-box h2 { font-size: 1.6rem; }
@@ -646,7 +698,16 @@
         <p>Rotate, zoom, and interact with the full architectural model to see every detail of the library cafe design.</p>
     </div>
     <div class="model-container fade-up">
-        <iframe src="https://collaborate.shapr3d.com/p/04dc6a4e-76e0-4a30-bd0f-6e5fd7716c31" allowfullscreen loading="lazy"></iframe>
+        <a href="https://app.shapr3d.com/p/04dc6a4e-76e0-4a30-bd0f-6e5fd7716c31/v/5RRC4pHmLvG3LWjadMZd_?source=auth-handoff&utm_source=app" target="_blank" rel="noopener" class="model-preview">
+            <img src="images/total-design-angle.png" alt="3D Model Preview — Click to open interactive viewer" loading="lazy">
+            <div class="model-overlay">
+                <div class="model-play-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="M21.17 8C18.15 4.57 14 2 14 2s-1.9 3.95-1.03 7.09c.87 3.14 3.61 5.48 3.61 5.48L21.17 8z"/><path d="M10.97 14.88s-.87-3.14.03-7.09C12 4.65 14 2 14 2s-3.15 1.57-6.17 5-4.57 7.56-4.57 7.56l7.71.32z"/></svg>
+                </div>
+                <span class="model-cta-text">Open Interactive 3D Model</span>
+                <span class="model-cta-sub">Rotate, zoom & explore in Shapr3D</span>
+            </div>
+        </a>
     </div>
 </section>
 
@@ -830,9 +891,10 @@
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05, rootMargin: '0px 0px 50px 0px' });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
