@@ -332,55 +332,95 @@
 
         /* GALLERY */
         .gallery { background: var(--cream-dark); }
-        .gallery-grid {
-            max-width: 1200px;
+        .slider-wrapper {
+            max-width: 1000px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-        .gallery-item {
             position: relative;
-            border-radius: 12px;
+        }
+        .slider-viewport {
             overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+            background: #000;
+        }
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .slide {
+            min-width: 100%;
+            position: relative;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: transform 0.4s, box-shadow 0.4s;
-            background: #fff;
         }
-        .gallery-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-        .gallery-item.featured {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-        .gallery-item img {
+        .slide img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: 550px;
+            object-fit: contain;
             display: block;
-            transition: transform 0.6s;
+            background: #1a1a1a;
         }
-        .gallery-item:hover img { transform: scale(1.05); }
-        .gallery-item .overlay {
+        .slide-caption {
             position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(to top, rgba(26,58,10,0.9), transparent);
-            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(26,58,10,0.95), rgba(26,58,10,0.6) 60%, transparent);
+            padding: 3rem 2rem 1.5rem;
             color: #fff;
-            transform: translateY(100%);
-            transition: transform 0.4s;
         }
-        .gallery-item:hover .overlay { transform: translateY(0); }
-        .overlay h4 {
+        .slide-caption h4 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.2rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
         }
-        .overlay p {
-            font-size: 0.8rem;
-            opacity: 0.8;
+        .slide-caption p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            font-weight: 300;
+        }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.9);
+            color: var(--forest-dark);
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+            transition: background 0.3s, transform 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .slider-btn:hover {
+            background: #fff;
+            transform: translateY(-50%) scale(1.1);
+        }
+        .slider-btn.prev { left: -24px; }
+        .slider-btn.next { right: -24px; }
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .slider-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--forest);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 0;
+        }
+        .slider-dot.active {
+            background: var(--forest);
+            transform: scale(1.2);
+        }
+        .slide-counter {
+            text-align: center;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
             font-weight: 300;
         }
 
@@ -580,22 +620,12 @@
             }
             .about-grid { grid-template-columns: 1fr; }
             .about-features { grid-template-columns: 1fr 1fr; }
-            .gallery-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-            .gallery-item.featured { grid-column: span 2; grid-row: span 1; }
-            .gallery-item {
-                display: flex;
-                flex-direction: column;
-            }
-            .gallery-item img {
-                height: auto;
-                aspect-ratio: 16/10;
-            }
-            .gallery-item .overlay {
-                transform: translateY(0);
-                position: relative;
-                background: var(--forest-dark);
-                padding: 0.8rem 1rem;
-            }
+            .slide img { height: 350px; }
+            .slider-btn { width: 40px; height: 40px; font-size: 1.1rem; }
+            .slider-btn.prev { left: 8px; }
+            .slider-btn.next { right: 8px; }
+            .slide-caption { padding: 2rem 1.2rem 1.2rem; }
+            .slide-caption h4 { font-size: 1.1rem; }
             .furniture-grid { grid-template-columns: 1fr; max-width: 500px; }
             .furniture-card-img { height: 180px; }
             model-viewer { height: 350px !important; }
@@ -611,8 +641,9 @@
             .video-container { border-radius: 10px; }
         }
         @media (max-width: 480px) {
-            .gallery-grid { grid-template-columns: 1fr; gap: 1rem; }
-            .gallery-item.featured { grid-column: span 1; }
+            .slide img { height: 260px; }
+            .slide-caption h4 { font-size: 1rem; }
+            .slide-caption p { font-size: 0.8rem; }
             .about-features { grid-template-columns: 1fr; }
             nav .logo { font-size: 0.95rem; }
             .hero h1 { font-size: 2rem; }
@@ -719,70 +750,78 @@
         <h2>Architectural Perspectives</h2>
         <p>Explore the library cafe from every angle — 3D renders, elevations, and detailed views of each space.</p>
     </div>
-    <div class="gallery-grid fade-up">
-        <div class="gallery-item featured" onclick="openLightbox(this)">
-            <img src="project-angle.png" alt="Full design angled perspective" loading="lazy">
-            <div class="overlay">
-                <h4>Full Design — Perspective View</h4>
-                <p>Complete layout with indoor space, veranda, and outdoor deck</p>
+    <div class="slider-wrapper fade-up">
+        <div class="slider-viewport">
+            <div class="slider-track" id="slider-track">
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="project-angle.png" alt="Full design angled perspective">
+                    <div class="slide-caption">
+                        <h4>Full Design — Perspective View</h4>
+                        <p>Complete layout with indoor space, veranda, and outdoor deck</p>
+                    </div>
+                </div>
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="project-left-3d.png" alt="Left side 3D view">
+                    <div class="slide-caption">
+                        <h4>Left Side — 3D View</h4>
+                        <p>Interior with bar seating, book racks, and pantry</p>
+                    </div>
+                </div>
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="project-front.png" alt="Front elevation">
+                    <div class="slide-caption">
+                        <h4>Front Elevation</h4>
+                        <p>Building facade with veranda chairs and deck</p>
+                    </div>
+                </div>
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="project-inside-right.png" alt="Interior right side angle">
+                    <div class="slide-caption">
+                        <h4>Interior — Right Side Angle</h4>
+                        <p>Reading area with table, chairs, and book shelves</p>
+                    </div>
+                </div>
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="project-inside-front.png" alt="Interior front view">
+                    <div class="slide-caption">
+                        <h4>Interior — Front View</h4>
+                        <p>Dining table with chairs, pantry cupboard, and shelving</p>
+                    </div>
+                </div>
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="project-inside-left.png" alt="Interior left side view">
+                    <div class="slide-caption">
+                        <h4>Interior — Left View</h4>
+                        <p>Window seating, reading table, and sofa area</p>
+                    </div>
+                </div>
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="project-top.png" alt="Top view floor plan">
+                    <div class="slide-caption">
+                        <h4>Top View — Floor Plan</h4>
+                        <p>Full layout with furniture placement from above</p>
+                    </div>
+                </div>
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="project-side-3d.png" alt="Side 3D view">
+                    <div class="slide-caption">
+                        <h4>Side — 3D View</h4>
+                        <p>Side profile showing veranda table and deck</p>
+                    </div>
+                </div>
+                <div class="slide" onclick="openLightbox(this)">
+                    <img src="deck-outdoor.png" alt="Outdoor timber deck">
+                    <div class="slide-caption">
+                        <h4>Outdoor Timber Deck</h4>
+                        <p>Raised deck platform with railings extending into the forest</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="project-left-3d.png" alt="Left side 3D view" loading="lazy">
-            <div class="overlay">
-                <h4>Left Side — 3D View</h4>
-                <p>Interior with bar seating, book racks, and pantry</p>
-            </div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="project-front.png" alt="Front elevation" loading="lazy">
-            <div class="overlay">
-                <h4>Front Elevation</h4>
-                <p>Building facade with veranda chairs and deck</p>
-            </div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="project-inside-right.png" alt="Interior right side angle" loading="lazy">
-            <div class="overlay">
-                <h4>Interior — Right Side Angle</h4>
-                <p>Reading area with table, chairs, and book shelves</p>
-            </div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="project-inside-front.png" alt="Interior front view" loading="lazy">
-            <div class="overlay">
-                <h4>Interior — Front View</h4>
-                <p>Dining table with chairs, pantry cupboard, and shelving</p>
-            </div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="project-inside-left.png" alt="Interior left side view" loading="lazy">
-            <div class="overlay">
-                <h4>Interior — Left View</h4>
-                <p>Window seating, reading table, and sofa area</p>
-            </div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="project-top.png" alt="Top view floor plan" loading="lazy">
-            <div class="overlay">
-                <h4>Top View — Floor Plan</h4>
-                <p>Full layout with furniture placement from above</p>
-            </div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="project-side-3d.png" alt="Side 3D view" loading="lazy">
-            <div class="overlay">
-                <h4>Side — 3D View</h4>
-                <p>Side profile showing veranda table and deck</p>
-            </div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="deck-outdoor.png" alt="Outdoor timber deck" loading="lazy">
-            <div class="overlay">
-                <h4>Outdoor Timber Deck</h4>
-                <p>Raised deck platform with railings extending into the forest</p>
-            </div>
-        </div>
+        <button class="slider-btn prev" onclick="slideMove(-1)" aria-label="Previous">&#10094;</button>
+        <button class="slider-btn next" onclick="slideMove(1)" aria-label="Next">&#10095;</button>
+        <div class="slider-dots" id="slider-dots"></div>
+        <div class="slide-counter" id="slide-counter">1 / 9</div>
     </div>
 </section>
 
@@ -924,6 +963,46 @@
     }
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') slideMove(-1);
+        if (e.key === 'ArrowRight') slideMove(1);
+    });
+
+    // Slider
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const track = document.getElementById('slider-track');
+    const dotsContainer = document.getElementById('slider-dots');
+    const counter = document.getElementById('slide-counter');
+
+    for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+    }
+
+    function goToSlide(n) {
+        currentSlide = n;
+        track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+        document.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+        counter.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+    }
+
+    function slideMove(dir) {
+        let next = currentSlide + dir;
+        if (next < 0) next = totalSlides - 1;
+        if (next >= totalSlides) next = 0;
+        goToSlide(next);
+    }
+
+    let touchStartX = 0;
+    const viewport = document.querySelector('.slider-viewport');
+    viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    viewport.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) slideMove(diff > 0 ? 1 : -1);
     });
 
     // Hamburger menu
