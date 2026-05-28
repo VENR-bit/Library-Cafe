@@ -31,6 +31,7 @@ section[id]{scroll-margin-top:92px}
 .nav-links{display:flex;gap:28px;list-style:none}
 .nav-links a{font-size:13px;font-weight:500;letter-spacing:.4px;color:var(--ink-soft);text-transform:uppercase;transition:color .2s}
 .nav-links a:hover{color:var(--accent)}
+.nav-home-link{color:var(--accent)!important;font-weight:600!important}
 .nav-right{display:flex;align-items:center;gap:10px}
 .btn-support{display:inline-flex;align-items:center;gap:8px;padding:9px 18px 9px 20px;background:var(--accent);color:#fdfbf6;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.3px;box-shadow:0 6px 16px -8px rgba(45,74,50,.5);transition:transform .2s,box-shadow .2s}
 .btn-support:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(45,74,50,.6)}
@@ -226,6 +227,7 @@ section[id]{scroll-margin-top:92px}
       <div><div class="nav-logo-name">Rideekanda</div><div class="nav-logo-sub">Forest Monastery</div></div>
     </a>
     <ul class="nav-links">
+      <li><a href="https://rideekanda.org/" class="nav-home-link">← Home</a></li>
       <li><a href="#about">Vision</a></li>
       <li><a href="#model">3D Model</a></li>
       <li><a href="#gallery">Gallery</a></li>
@@ -239,6 +241,7 @@ section[id]{scroll-margin-top:92px}
   </div>
   <div class="mobile-menu" id="mobileMenu" style="display:none">
     <ul>
+      <li><a href="https://rideekanda.org/" class="nav-home-link" onclick="closeMenu()">← Home</a></li>
       <li><a href="#about" onclick="closeMenu()">Vision</a></li>
       <li><a href="#model" onclick="closeMenu()">3D Model</a></li>
       <li><a href="#gallery" onclick="closeMenu()">Gallery</a></li>
