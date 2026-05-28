@@ -330,9 +330,9 @@ section[id]{scroll-margin-top:92px}
 
 <!-- LIGHTBOX -->
 <div class="lightbox hidden" id="lightbox">
-  <button class="lb-nav lb-prev" onclick="lbPrev()">‹</button>
-  <button class="lb-nav lb-next" onclick="lbNext()">›</button>
-  <button class="lb-close" onclick="closeLightbox()">×</button>
+  <button class="lb-nav lb-prev" onclick="event.stopPropagation();lbPrev()">‹</button>
+  <button class="lb-nav lb-next" onclick="event.stopPropagation();lbNext()">›</button>
+  <button class="lb-close" onclick="event.stopPropagation();closeLightbox()">×</button>
   <figure class="lb-figure" onclick="event.stopPropagation()">
     <img id="lbImg" src="" alt="">
     <figcaption style="text-align:center;max-width:600px"><div class="lb-title" id="lbTitle"></div><div class="lb-desc" id="lbDesc"></div><div class="lb-counter" id="lbCounter"></div></figcaption>
@@ -407,8 +407,9 @@ function openLightbox(i){lbIndex=i;showLb();lightbox.classList.remove('hidden');
 function closeLightbox(){lightbox.classList.add('hidden');document.body.style.overflow=''}
 function lbPrev(){lbIndex=(lbIndex-1+galleryItems.length)%galleryItems.length;showLb()}
 function lbNext(){lbIndex=(lbIndex+1)%galleryItems.length;showLb()}
-lightbox.addEventListener('click',closeLightbox);
+lightbox.addEventListener('click',function(e){if(e.target===lightbox)closeLightbox()});
 document.addEventListener('keydown',function(e){if(lbIndex==null||lightbox.classList.contains('hidden'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft')lbPrev();if(e.key==='ArrowRight')lbNext()});
+var touchStartX=null;lightbox.addEventListener('touchstart',function(e){touchStartX=e.changedTouches[0].screenX},{passive:true});lightbox.addEventListener('touchend',function(e){if(touchStartX===null)return;var dx=e.changedTouches[0].screenX-touchStartX;touchStartX=null;if(Math.abs(dx)>50){if(dx<0)lbNext();else lbPrev()}},{passive:true});
 </script>
 </body>
 </html>
