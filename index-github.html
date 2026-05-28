@@ -533,7 +533,7 @@ function render(rows){
     var status=it.paid?'<span style="color:var(--accent);font-weight:600">'+it.paid+'</span>':'<span style="color:var(--muted)">pending</span>';
     html+='<tr><td>'+it.desc+'</td><td style="text-align:center">'+(it.qty||'—')+'</td><td style="text-align:right">'+(it.unit?fmtNum(parseNum(it.unit)):'—')+'</td><td style="text-align:right">'+fmtNum(it.total)+'</td><td>'+status+'</td></tr>';
   });
-  html+='<tr class="total-row"><td colspan="3">Total Expenditure</td><td style="text-align:right">Rs '+fmtNum(totalSpent)+'</td><td></td></tr>';
+  html+='<tr class="total-row"><td colspan="3">Total Expenditure to date</td><td style="text-align:right">Rs '+fmtNum(totalSpent)+'</td><td></td></tr>';
   html+='</tbody></table></div>';
   html+='<div class="exp-updated">Data synced live from project records · Last loaded: '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})+'</div>';
 
